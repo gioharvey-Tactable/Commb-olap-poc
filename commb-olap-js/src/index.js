@@ -1,7 +1,6 @@
 import { render } from 'react-dom';
 import './index.css';
 import * as React from 'react';
-import { useLocation } from 'react-router-dom';
 import { PivotViewComponent, Inject, FieldList, CalculatedField, GroupingBar, Toolbar, PDFExport, ExcelExport, ConditionalFormatting } from '@syncfusion/ej2-react-pivotview';
 import { SampleBase } from './sample-base';
 
@@ -118,8 +117,7 @@ export class OlapSample extends SampleBase {
         this.pivotObj.setProperties({ dataSourceSettings: { columns: [], rows: [], values: [], filters: [] } }, false);
     }
     chartOnLoad(args) {
-        const locator = useLocation();
-        let selectedTheme = locator.hash.split("/")[1];
+        let selectedTheme = location.hash.split("/")[1];
         selectedTheme = selectedTheme ? selectedTheme : "Material";
         args.chart.theme =
             selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1);

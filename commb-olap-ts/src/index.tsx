@@ -5,6 +5,7 @@ import {
     Toolbar, PDFExport, ExcelExport, ConditionalFormatting, SaveReportArgs,
     FetchReportArgs, LoadReportArgs, RemoveReportArgs, RenameReportArgs, ToolbarArgs
 } from '@syncfusion/ej2-react-pivotview';
+// import { useLocation } from 'react-router-dom';
 import { SampleBase } from './sample-base';
 import './index.css';
 
@@ -30,14 +31,14 @@ let dataSourceSettings: Object = {
     ]
 };
 
-export class OlapSample extends SampleBase<{}, {}> {
+export class OlapSample extends SampleBase {
 
     public pivotObj: any;
     public toolbarOptions: any = ['New', 'Save', 'SaveAs', 'Rename', 'Remove', 'Load',
         'Grid', 'Chart', 'MDX', 'Export', 'SubTotal', 'GrandTotal', 'ConditionalFormatting', 'FieldList'];
 
     public constructor(){
-      super(...arguments)
+      super([...arguments])
     }
 
     fetchReport(args: FetchReportArgs): void {
@@ -49,6 +50,7 @@ export class OlapSample extends SampleBase<{}, {}> {
         reportsCollection.map(function (item: any): void { reeportsList.push(item.reportName); });
         args.reportName = reeportsList;
     }
+
     saveReport(args: any): void {
         let report: SaveReportArgs[] = [];
         let isSave: boolean = false;
@@ -67,6 +69,7 @@ export class OlapSample extends SampleBase<{}, {}> {
             localStorage.pivotviewReports = JSON.stringify(report);
         }
     }
+
     removeReport(args: RemoveReportArgs): void {
         let reportsCollection: any[] = [];
         if (localStorage.pivotviewReports && localStorage.pivotviewReports !== "") {
@@ -81,6 +84,7 @@ export class OlapSample extends SampleBase<{}, {}> {
             localStorage.pivotviewReports = JSON.stringify(reportsCollection);
         }
     }
+
     loadReport(args: LoadReportArgs): void {
         let reportsCollection: string[] = [];
         if (localStorage.pivotviewReports && localStorage.pivotviewReports !== "") {
@@ -95,6 +99,7 @@ export class OlapSample extends SampleBase<{}, {}> {
             this.pivotObj.dataSourceSettings = JSON.parse(args.report).dataSourceSettings;
         }
     }
+
     renameReport(args: RenameReportArgs): void {
         let reportsCollection: any[] = [];
         if (localStorage.pivotviewReports && localStorage.pivotviewReports !== "") {
@@ -112,7 +117,8 @@ export class OlapSample extends SampleBase<{}, {}> {
             localStorage.pivotviewReports = JSON.stringify(reportsCollection);
         }
     }
-    beforeToolbarRender(args: ToolbarArgs): void {
+
+    beforeToolbarRender(args: any): void {
         args.customToolbar.splice(6, 0, {
             type: 'Separator'
         });
@@ -120,11 +126,14 @@ export class OlapSample extends SampleBase<{}, {}> {
             type: 'Separator'
         });
     }
+
     newReport(): void {
         this.pivotObj.setProperties({ dataSourceSettings: { columns: [], rows: [], values: [], filters: [] } }, false);
     }
+    
     chartOnLoad(args:any): void {
-        let selectedTheme = location.hash.split("/")[1];
+        // const location = useLocation();
+        let selectedTheme = window.location.hash.split("/")[1];
         selectedTheme = selectedTheme ? selectedTheme : "Material";
         args.chart.theme =
             selectedTheme.charAt(0).toUpperCase() + selectedTheme.slice(1);
